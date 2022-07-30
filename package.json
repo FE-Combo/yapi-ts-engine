@@ -1,0 +1,33 @@
+{
+  "name": "yapi-ts-engine",
+  "version": "0.0.1-beta.3",
+  "description": "Automatically generate service&type based on yapi",
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "api": "node demo/test.js",
+    "prettier": "prettier --write '**/*.{ts,js,md,json}'",
+    "release": "standard-version",
+    "release:beta": "standard-version --prerelease beta",
+    "release:alpha": "standard-version --prerelease alpha",
+    "release:major": "standard-version --release-as major",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch"
+  },
+  "author": "vocoWone",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.14.22",
+    "prettier": "^2.7.1",
+    "standard-version": "^9.5.0"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "chalk": " 4.1.0",
+    "fs-extra": "^9.1.0"
+  }
+}

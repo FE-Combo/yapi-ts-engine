@@ -1,0 +1,27 @@
+logs/
+yarn-error.log
+node_modules/
+package-lock.json
+coverage/
+.idea/
+.next/
+test/
+.vscode/
+*.map
+*.jsx
+.i18n
+tsconfig.tsbuildinfo
+client/_static/
+client/.next/
+.sentryclirc
+.DS_Store
+output/
+.cookie
+
+# PWA files
+**/public/sw.js
+**/public/workbox-*.js
+**/public/worker-*.js
+**/public/sw.js.map
+**/public/workbox-*.js.map
+**/public/worker-*.js.map
