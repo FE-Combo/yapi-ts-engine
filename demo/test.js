@@ -8,14 +8,16 @@ generate({
   servicePath: "/output",
   requestImportExpression: "import ajax from 'utils/ajax';\nimport BaseResult from 'utils/type';",
   hiddenBodyInGET: true,
-  apiRename:(name)=>{
-    return name.replace(/^((\/v\w\.\w)?\/nuwa\/)|(\/demo)/,"")
+  apiRename: (name) => {
+    return name.replace(/^((\/v\w\.\w)?\/nuwa\/)|(\/demo)/, "");
   },
-  responseType: (type)=> {
-    return `BaseResult<${type}>`
+  responseType: (type) => {
+    return `BaseResult<${type}>`;
   },
+  // includePatterns: ["/v1.0/nuwa/admin/api-group-auths"],
+  // excludePatterns: ["/v1.0/nuwa/admin/api-group-auths(.*)"],
   ajaxName: "ajax",
-  hiddenTypes:["headers"],
+  hiddenTypes: ["headers"],
   additionalPageHeader: `
 /* eslint-disable @typescript-eslint/array-type */
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
