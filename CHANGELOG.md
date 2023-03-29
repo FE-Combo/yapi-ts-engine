@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.1](https://github.com/vocoWone/yapi-ts-engine/compare/v0.0.1-beta.5...v0.0.1) (2023-03-29)
+
+
+### Features
+
+* add basepath ([83cfd3e](https://github.com/vocoWone/yapi-ts-engine/commit/83cfd3eb535c65b97bcb9c4e7ff6785239004901))
+
 ### [0.0.1-beta.5](https://github.com/vocoWone/yapi-ts-engine/compare/v0.0.1-beta.4...v0.0.1-beta.5) (2022-11-07)
 
 ### 0.0.1-beta.4 (2022-07-30)
