@@ -89,8 +89,9 @@ function generateTypeContent(apiJSON, generatePath, options) {
   lines.push(additionalPageHeader);
   lines.push(``);
   Object.entries(apiJSON).forEach(([key, api]) => {
-    if (apiPattern(api.path, options)) {
-      lines.push(`// ${api.method}: ${api.path}`);
+    const path = `${options.basepath || ""}${api.path}` 
+    if (apiPattern(path, options)) {
+      lines.push(`// ${api.method}: ${path}`);
       if (api.req_params?.length > 0 && !hiddenTypes.includes("path")) {
         lines.push(`export interface ${key}$Path {`);
         api.req_params.forEach((_) => {
@@ -163,7 +164,8 @@ function generateApiContent(apiJSON, generatePath, options) {
   lines.push(``);
   lines.push(`class Services {`);
   Object.entries(apiJSON).forEach(([key, api]) => {
-    if (apiPattern(api.path, options)) {
+    const nextPath = `${options.basepath || ""}${api.path}` 
+    if (apiPattern(nextPath, options)) {
       const path = api?.req_params?.length > 0 && !hiddenTypes.includes("path") ? `path: Type.${key}$Path` : null;
       const query = api?.req_query?.length > 0 && !hiddenTypes.includes("query") ? `query: Type.${key}$Query` : null;
       const headers = api?.req_headers?.length > 0 && !hiddenTypes.includes("headers") ? `headers: Type.${key}$Headers` : null;
@@ -171,7 +173,7 @@ function generateApiContent(apiJSON, generatePath, options) {
       const response = `${api.res_body && !hiddenTypes.includes("response") ? `Type.${key}$Response` : "void"}`;
       const nextResponseType = `${typeof responseType === "function" ? responseType(response) : response}`;
       lines.push(`  public static ${stringFirstLowerCase(key)}(${[path, query, body, headers].filter((_) => _).join(",")}): Promise<${nextResponseType}> {`);
-      lines.push(`    return ${ajaxName}("${api.method}","${api.path}", ${path ? "path" : "null"}, ${query ? "query" : "null"}, ${body ? "body" : "null"}, ${headers ? "headers" : "null"}, null)`);
+      lines.push(`    return ${ajaxName}("${api.method}","${nextPath}", ${path ? "path" : "null"}, ${query ? "query" : "null"}, ${body ? "body" : "null"}, ${headers ? "headers" : "null"}, null)`);
       lines.push(`  }`);
     }
   });
@@ -216,7 +218,8 @@ async function generate(options) {
           const response = await getContent(`${serverUrl}/api/interface/get?id=${item._id}`);
           if (!response.errcode) {
             const data = response.data;
-            const apiName = `${stringFirstUpperCase(data.method.toLowerCase())}${(typeof apiRename === "function" ? apiRename(data.path) : data.path)
+            const path = `${options.basepath || ""}${data.path}` 
+            const apiName = `${stringFirstUpperCase(data.method.toLowerCase())}${(typeof apiRename === "function" ? apiRename(path) : path)
               .split(/\-|\/|\_/)
               .map((_) => stringFirstUpperCase(_))
               .join("")
@@ -238,7 +241,7 @@ async function generate(options) {
     console.info(
       chalk`{white.bold 😍 Generated Successfully (total: ${Object.keys(apiJSON).length}，generate: ${
         Object.values(apiJSON)
-          .map((_) => (apiPattern(_.path, options) ? _.path : null))
+          .map((_) => (apiPattern(`${options.basepath || ""}${_.path}`, options) ? _.path : null))
           .filter((_) => _).length
       })}`
     );

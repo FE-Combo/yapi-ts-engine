@@ -30,12 +30,13 @@ yapi 适用于文档先行开发团队
 - additionalPageHeader?: 页面头部信息，通常用于 disable eslint
 - apiRename?: 服务方法重命名，修改后将影响服务方法名
 - responseType?: 返回类型包装
+- basepath?: 接口统一前缀，对应 yapi 中的接口基本路径
 - ajaxName?: ajax 命名，默认为`ajax`
 - hiddenTypes?: 隐藏类型, 默认为空数组. `path`、`query`、`body`、`headers`、`formData`、`response`
 - hiddenBodyInGET?: boolean 是否隐藏 body 在 get 方法中
-- customData?: 自定义 json
-- includePatterns?: 指定包含接口，[规则参考](https://github.com/pillarjs/path-to-regexp)
-- excludePatterns?: 过滤指定接口，[规则参考](https://github.com/pillarjs/path-to-regexp)
+- customData?: 本地导入 json 解析
+- includePatterns?: 指定包含接口，[规则参考](https://github.com/pillarjs/path-to-regexp)，若配置了 basepath，请加上 basepath
+- excludePatterns?: 过滤指定接口，[规则参考](https://github.com/pillarjs/path-to-regexp)，若配置了 basepath，请加上 basepath
 
 ## 使用
 
