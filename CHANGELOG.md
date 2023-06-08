@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/vocoWone/yapi-ts-engine/compare/v0.0.1...v0.0.2) (2023-06-08)
+
+
+### Bug Fixes
+
+* path parameters ([62fa0e2](https://github.com/vocoWone/yapi-ts-engine/commit/62fa0e2a1efdc7370f4879b34c33129c236673c5))
+
 ### [0.0.1](https://github.com/vocoWone/yapi-ts-engine/compare/v0.0.1-beta.5...v0.0.1) (2023-03-29)
 
 
