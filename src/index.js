@@ -208,7 +208,7 @@ async function generate(options) {
     fs.emptyDirSync(generatePath);
 
     let apiJSON = options.customData || {};
-
+    
     if (!options.customData) {
       const content = await getContent(`${serverUrl}/api/interface/list?page=1&limit=999&project_id=${projectId}`);
       if (!content?.data?.list) {
@@ -223,7 +223,7 @@ async function generate(options) {
               .split(/\-|\/|\_/)
               .map((_) => stringFirstUpperCase(_))
               .join("")
-              .replace(/(\{)|(\}\{)/g, "With")
+              .replace(/(\{)|(\}\{)|(\:)/g, "With")
               .replace(/\}$/g, "")
               .replace(/\}/g, "In")}`;
             apiJSON[apiName] = data;

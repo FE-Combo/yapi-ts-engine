@@ -1,7 +1,7 @@
 {
   "DeleteAdminApiGroupAuthsWithAuthCodeInCancel": {
     "query_path": {
-      "path": "/v1.0/nuwa/admin/api-group-auths/{auth_code}/cancel",
+      "path": "/v1.0/nuwa/admin/api-group-auths/:auth_code/cancel",
       "params": []
     },
     "edit_uid": 0,
@@ -16,7 +16,7 @@
     "method": "DELETE",
     "catid": 5418,
     "title": "删除授权数据",
-    "path": "/v1.0/nuwa/admin/api-group-auths/{auth_code}/cancel",
+    "path": "/v1.0/nuwa/admin/api-group-auths/:auth_code/cancel",
     "project_id": 547,
     "req_params": [
       {
