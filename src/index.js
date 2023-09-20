@@ -214,7 +214,7 @@ async function generate(options) {
       for (let page = 1; page <= (content?.data?.total || 10); page++) {
         const response = await getContent(`${serverUrl}/api/interface/list?page=${page}&limit=20&project_id=${projectId}`);
         if(!response?.data?.list) {
-          throw new Error(content?.errmsg || "1. 请检测 cookie 信息是否已过期; 2. 请检测是否有该项目权限");
+          throw new Error(response?.errmsg || "1. 请检测 cookie 信息是否已过期; 2. 请检测是否有该项目权限");
         }
         if(!content) {
           content = response;
