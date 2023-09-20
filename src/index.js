@@ -210,24 +210,33 @@ async function generate(options) {
     let apiJSON = options.customData || {};
     
     if (!options.customData) {
-      const content = await getContent(`${serverUrl}/api/interface/list?page=1&limit=999&project_id=${projectId}`);
-      if (!content?.data?.list) {
-        throw new Error("请检测 cookie 信息是否已过期");
-      } else {
-        for (item of content.data.list) {
-          const response = await getContent(`${serverUrl}/api/interface/get?id=${item._id}`);
-          if (!response.errcode) {
-            const data = response.data;
-            const path = `${options.basepath || ""}${data.path}` 
-            const apiName = `${stringFirstUpperCase(data.method.toLowerCase())}${(typeof apiRename === "function" ? apiRename(path) : path)
-              .split(/\-|\/|\_/)
-              .map((_) => stringFirstUpperCase(_))
-              .join("")
-              .replace(/(\{)|(\}\{)|(\:)/g, "With")
-              .replace(/\}$/g, "")
-              .replace(/\}/g, "In")}`;
-            apiJSON[apiName] = data;
-          }
+      let content = null;
+      for (let page = 1; page <= (content?.data?.total || 10); page++) {
+        const response = await getContent(`${serverUrl}/api/interface/list?page=${page}&limit=20&project_id=${projectId}`);
+        if(!response?.data?.list) {
+          throw new Error(content?.errmsg || "1. 请检测 cookie 信息是否已过期; 2. 请检测是否有该项目权限");
+        }
+        if(!content) {
+          content = response;
+        } else {
+          if(content)
+          content.data.list = content.data.list.concat(response.data.list)
+        }
+      }
+      
+      for (item of content.data.list) {
+        const response = await getContent(`${serverUrl}/api/interface/get?id=${item._id}`);
+        if (!response.errcode) {
+          const data = response.data;
+          const path = `${options.basepath || ""}${data.path}` 
+          const apiName = `${stringFirstUpperCase(data.method.toLowerCase())}${(typeof apiRename === "function" ? apiRename(path) : path)
+            .split(/\-|\/|\_/)
+            .map((_) => stringFirstUpperCase(_))
+            .join("")
+            .replace(/(\{)|(\}\{)|(\:)/g, "With")
+            .replace(/\}$/g, "")
+            .replace(/\}/g, "In")}`;
+          apiJSON[apiName] = data;
         }
       }
     }
