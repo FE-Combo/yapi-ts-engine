@@ -37,6 +37,8 @@ yapi 适用于文档先行开发团队
 - customData?: 本地导入 json 解析
 - includePatterns?: 指定包含接口，[规则参考](https://github.com/pillarjs/path-to-regexp)，若配置了 basepath，请加上 basepath
 - excludePatterns?: 过滤指定接口，[规则参考](https://github.com/pillarjs/path-to-regexp)，若配置了 basepath，请加上 basepath
+- shouldGenerateStaticMockData?: boolean, 是否生成静态mock数据
+- closeOptional？: boolean, 是否关闭可选类型
 
 ## 使用
 

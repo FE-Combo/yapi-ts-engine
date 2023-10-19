@@ -38,6 +38,13 @@ commander
         appPackage.scripts["api"] = `node ${destinationPath}`;
         fs.writeFileSync(path.join(currentWorkingDirectory, "package.json"), JSON.stringify(appPackage, null, 2) + os.EOL);
       }
+
+      const cookiePath = path.join(currentWorkingDirectory, ".cookie");
+      if(!fs.existsSync(cookiePath)) {
+        fs.writeFileSync(cookiePath, "");
+        console.info(`Adding ${chalk.cyan(cookiePath)} to the project`);
+
+      }
     })
   });
 

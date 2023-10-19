@@ -30,6 +30,8 @@
     "standard-version": "^9.5.0"
   },
   "dependencies": {
+    "@babel/parser": "^7.23.0",
+    "@babel/traverse": "^7.23.2",
     "axios": "^0.21.1",
     "commander": "^11.1.0",
     "node-wiz": "^0.0.1",

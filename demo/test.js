@@ -6,6 +6,8 @@ generate({
   serverUrl: "https://test.com",
   projectId: "666",
   servicePath: "/output",
+  shouldGenerateStaticMockData: true,
+  closeOptional: true,
   requestImportExpression: "import ajax from 'utils/ajax';\nimport BaseResult from 'utils/type';",
   hiddenBodyInGET: true,
   apiRename: (name) => {

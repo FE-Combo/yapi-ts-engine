@@ -9,6 +9,7 @@ generate({
   apiRename: (name) => {
     return name.replace(/^(\/v1\.\w\/test)/, '').replace(/\.\w\/test/, '');
   },
+  shouldGenerateStaticMockData: true,
   hiddenTypes: ['headers'],
   responseType: (type) => {
     return `BaseResult<${type}>`;

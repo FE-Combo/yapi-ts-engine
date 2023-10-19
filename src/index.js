@@ -5,6 +5,7 @@ const axios = require("axios");
 const Agent = require("https").Agent;
 const childProcess = require("child_process");
 const { match } = require("path-to-regexp");
+const { generateStaticMockData } = require("./generateMockData.js");
 
 function format(prettierPath) {
   const prettierConfigPath = path.join(process.cwd(), "/prettier.config.js");
@@ -187,6 +188,18 @@ function generateApiContent(apiJSON, generatePath, options) {
   console.info(chalk`{white.green Write:} ${indexPath}`);
 }
 
+function generateMockData(generatePath, options) {
+  const source = path.join(generatePath, `type.ts`);
+  if(options.shouldGenerateStaticMockData) {
+    const targetPath = path.join(generatePath, `static.mock.ts`);
+    const typeContent = fs.readFileSync(source, { encoding: "utf-8" })
+    const staticMockData = generateStaticMockData(typeContent, options);
+    fs.ensureFileSync(targetPath);
+    fs.writeFileSync(targetPath, staticMockData);
+    console.info(chalk`{white.green Write:} ${targetPath}`);
+  }
+}
+
 async function generate(options) {
   try {
     const { serverUrl, servicePath, requestImportExpression, apiRename, projectId } = options;
@@ -244,6 +257,8 @@ async function generate(options) {
     generateTypeContent(apiJSON, generatePath, options);
 
     generateApiContent(apiJSON, generatePath, options);
+
+    generateMockData(generatePath, options);
 
     format(generatePath + "/*");
 
