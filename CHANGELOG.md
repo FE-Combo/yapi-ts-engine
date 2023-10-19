@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/vocoWone/yapi-ts-engine/compare/v0.1.1...v0.2.0) (2023-10-19)
+
+
+### Features
+
+* Add support for static mock data generation ([2657267](https://github.com/vocoWone/yapi-ts-engine/commit/2657267ca0ac2ca0defdadb4c7dd090e0eff24fb))
+* add template ([d51e295](https://github.com/vocoWone/yapi-ts-engine/commit/d51e29563bef9be9f71d8f37763e51a4a7d86f85))
+
 ### [0.1.1](https://github.com/vocoWone/yapi-ts-engine/compare/v0.1.0...v0.1.1) (2023-09-20)
 
 ## [0.1.0](https://github.com/vocoWone/yapi-ts-engine/compare/v0.0.2...v0.1.0) (2023-09-20)

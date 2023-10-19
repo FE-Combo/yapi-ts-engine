@@ -1,6 +1,6 @@
 {
   "name": "yapi-ts-engine",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Automatically generate service&type based on yapi",
   "main": "src/index.js",
   "files": [
