@@ -5,12 +5,16 @@
   "main": "src/index.js",
   "files": [
     "src",
-    "README.md",
+    "bin",
     "package.json"
   ],
+  "bin": {
+    "yapi-ts-engine": "./bin/index.js"
+  },
   "scripts": {
-    "api": "node demo/test.js",
+    "test-api": "node demo/test.js",
     "prettier": "prettier --write '**/*.{ts,js,md,json}'",
+    "yapi-ts-engine": "node ./bin/index.js",
     "release": "standard-version",
     "release:beta": "standard-version --prerelease beta",
     "release:alpha": "standard-version --prerelease alpha",
@@ -27,8 +31,8 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "chalk": " 4.1.0",
-    "fs-extra": "^9.1.0",
+    "commander": "^11.1.0",
+    "node-wiz": "^0.0.1",
     "path-to-regexp": "^6.2.1"
   }
 }
