@@ -34,7 +34,7 @@
     "@babel/traverse": "^7.23.2",
     "axios": "^0.21.1",
     "commander": "^11.1.0",
-    "node-wiz": "^0.0.1",
+    "node-wiz": "^0.0.3",
     "path-to-regexp": "^6.2.1"
   }
 }
