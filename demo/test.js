@@ -11,7 +11,7 @@ generate({
   requestImportExpression: "import ajax from 'utils/ajax';\nimport BaseResult from 'utils/type';",
   hiddenBodyInGET: true,
   apiRename: (name) => {
-    return name.replace(/^((\/v\w\.\w)?\/nuwa\/)|(\/demo)/, "");
+    return name.replace(/^\/v1.\w\/(demo)/, '').replace(/^\/v(\w)\.\w\/(demo)/, '/v$1')
   },
   responseType: (type) => {
     return `BaseResult<${type}>`;

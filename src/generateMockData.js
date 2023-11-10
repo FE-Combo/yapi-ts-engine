@@ -8,6 +8,7 @@ function generateStaticMockData(code, options) {
         plugins: ["typescript"],
     });
     babelTraverse.default(ast, {
+        // 针对 interface 定义
         TSInterfaceDeclaration(path) {
             const node = path.node;
             result.push(`
@@ -20,6 +21,12 @@ function generateStaticMockData(code, options) {
         `)}
     }`)
         },
+        // 针对 type 定义
+        TSTypeAliasDeclaration(path) {
+            const node = path.node;
+            result.push(`
+    export const ${`static${node.id.name}` || "unknown"} = ${randomGenerator(node.typeAnnotation, options)}`)
+        }
     });
     return result.join(``)
 }
