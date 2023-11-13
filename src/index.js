@@ -6,6 +6,7 @@ const Agent = require("https").Agent;
 const childProcess = require("child_process");
 const { match } = require("path-to-regexp");
 const { generateStaticMockData } = require("./generateMockData.js");
+const { stringFirstUpperCase, stringFirstLowerCase } = require("./utils.js");
 
 function format(prettierPath) {
   const prettierConfigPath = path.join(process.cwd(), "/prettier.config.js");
@@ -37,14 +38,6 @@ const apiPattern = (api, options) => {
   return includeRegexp && excludeRegexp;
 };
 
-const stringFirstUpperCase = (str) => {
-  return str.replace(/^(\{)?[a-z]/g, (L) => L.toUpperCase());
-};
-
-const stringFirstLowerCase = (str) => {
-  return str.replace(/^[A-Z]/g, (L) => L.toLowerCase());
-};
-
 const recursiveJSON = (json, lines, layer) => {
   if (json.type === "object") {
     lines.push(`${new Array(layer).fill(" ").join("")}{`);
@@ -73,6 +66,16 @@ const recursiveJSON = (json, lines, layer) => {
     lines.push(`${new Array(layer).fill(" ").join("")}${json.type || "string"}`);
   }
 };
+
+function getStaticMockFilePath(servicePath, options) {
+  let staticMockFilePath;
+  if(options?.path) {
+    staticMockFilePath = path.join(process.cwd(), optionspath, optionsfilename ? `${optionsfilename}.ts` : "static.mock.ts");
+  } else {
+    staticMockFilePath = path.join(servicePath, options.filename ? `${options.filename}.ts` : "static.mock.ts");
+  }
+  return staticMockFilePath
+}
 
 async function getContent(url) {
   const response = await axios.get(url, {
@@ -156,12 +159,15 @@ function generateTypeContent(apiJSON, generatePath, options) {
 }
 
 function generateApiContent(apiJSON, generatePath, options) {
-  const { requestImportExpression, additionalPageHeader = "", responseType, ajaxName = "ajax", hiddenTypes = [], hiddenBodyInGET = false } = options;
-
+  const { requestImportExpression, additionalPageHeader = "", responseType, ajaxName = "ajax", hiddenTypes = [], hiddenBodyInGET = false, mock } = options;
   const lines = [];
   lines.push(additionalPageHeader);
   lines.push(requestImportExpression);
   lines.push(`import * as Type from "./type";`);
+  if(mock) {
+    const staticMockFilePath = getStaticMockFilePath(generatePath, mock);
+    lines.push(`import * as StaticMockServices from "${path.relative(generatePath, staticMockFilePath).startsWith("../")? path.relative(generatePath, staticMockFilePath).replace(/\.ts$/, "") : "./"+path.relative(generatePath, staticMockFilePath).replace(/\.ts$/, "")}"`);
+  }
   lines.push(``);
   lines.push(`class Services {`);
   Object.entries(apiJSON).forEach(([key, api]) => {
@@ -180,7 +186,30 @@ function generateApiContent(apiJSON, generatePath, options) {
   });
 
   lines.push(`}`);
-  lines.push(`export default Services;`);
+  if(mock) {
+    lines.push(`
+const ServicesProxy = new Proxy(Services, {
+  get: function(target, prop, receiver) {
+    if (prop === 'prototype') {
+      return Services.prototype;
+    }
+    // eslint-disable-next-line
+    // @ts-ignore
+    if(ENV.STATIC_MOCK) {
+      return function() {
+        return ${mock?.responseBodyTemplate?.replace(/{value}/g, "StaticMockServices?.[prop]") || "StaticMockServices?.[prop]"};
+      }
+    } else {
+      return Reflect.get(target, prop, receiver);
+    }
+  }
+});
+
+export default ServicesProxy; 
+    `);
+  } else {
+    lines.push(`export default Services;`);
+  }
 
   const indexPath = path.join(generatePath, `index.ts`);
   fs.ensureFileSync(indexPath);
@@ -188,12 +217,12 @@ function generateApiContent(apiJSON, generatePath, options) {
   console.info(chalk`{white.green Write:} ${indexPath}`);
 }
 
-function generateMockData(generatePath, options) {
-  const source = path.join(generatePath, `type.ts`);
-  if(options.shouldGenerateStaticMockData) {
-    const targetPath = path.join(generatePath, `static.mock.ts`);
+function generateMockData(generatePath, mockOptions) {
+  if(mockOptions) {
+    const source = path.join(generatePath, `type.ts`);
+    const targetPath = getStaticMockFilePath(generatePath, mockOptions);
     const typeContent = fs.readFileSync(source, { encoding: "utf-8" })
-    const staticMockData = generateStaticMockData(typeContent, options);
+    const staticMockData = generateStaticMockData(typeContent, mockOptions);
     fs.ensureFileSync(targetPath);
     fs.writeFileSync(targetPath, staticMockData);
     console.info(chalk`{white.green Write:} ${targetPath}`);
@@ -258,7 +287,7 @@ async function generate(options) {
 
     generateApiContent(apiJSON, generatePath, options);
 
-    generateMockData(generatePath, options);
+    generateMockData(generatePath, options.mock);
 
     format(generatePath + "/*");
 

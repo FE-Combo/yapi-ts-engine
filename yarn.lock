@@ -1000,10 +1000,10 @@ neo-async@^2.6.0:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-node-wiz@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/node-wiz/-/node-wiz-0.0.1.tgz#bb52711f2886d026a809913a653562406fc50a74"
-  integrity sha512-d5i00fQJyv1tlVPF8zgyT6u2+z7kx7KepklPv8OQ1qg7qOSm1dgiaWCc5cJkqma7kkWNQU7rarS5i2j0mCF7hg==
+node-wiz@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/node-wiz/-/node-wiz-0.0.3.tgz#abe3115950cc1e23634931a6ee0a7c69e6937755"
+  integrity sha512-LGXWTc2P8yjYPkiKjmsqZ0v7gpquuYW4M1Ao0hMn8N4y930KCtd/bNsXwfnC1HlNETag6xeSy1vIAsXgRQLzoA==
   dependencies:
     chalk "^5.3.0"
     fs-extra "^11.1.1"

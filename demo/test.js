@@ -6,8 +6,6 @@ generate({
   serverUrl: "https://test.com",
   projectId: "666",
   servicePath: "/output",
-  shouldGenerateStaticMockData: true,
-  closeOptional: true,
   requestImportExpression: "import ajax from 'utils/ajax';\nimport BaseResult from 'utils/type';",
   hiddenBodyInGET: true,
   apiRename: (name) => {
@@ -20,6 +18,14 @@ generate({
   // excludePatterns: ["/v1.0/nuwa/admin/api-group-auths(.*)"],
   ajaxName: "ajax",
   hiddenTypes: ["headers"],
+  mock: {
+    closeOptional: true,
+    responseBodyTemplate: `{
+        success: true,
+        data: {value},
+        result: {value}
+      }`
+  },
   additionalPageHeader: `
 /* eslint-disable @typescript-eslint/array-type */
 /* eslint-disable @typescript-eslint/consistent-type-definitions */

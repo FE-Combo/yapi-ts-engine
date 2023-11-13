@@ -35,11 +35,13 @@ yapi 适用于文档先行开发团队
 - hiddenTypes?: 隐藏类型, 默认为空数组. `path`、`query`、`body`、`headers`、`formData`、`response`
 - hiddenBodyInGET?: boolean 是否隐藏 body 在 get 方法中
 - customData?: 本地导入 json 解析
-- includePatterns?: 指定包含接口，[规则参考](https://github.com/pillarjs/path-to-regexp)，若配置了 basepath，请加上 basepath
-- excludePatterns?: 过滤指定接口，[规则参考](https://github.com/pillarjs/path-to-regexp)，若配置了 basepath，请加上 basepath
-- shouldGenerateStaticMockData?: boolean, 是否生成静态mock数据
-- closeOptional？: boolean, 是否关闭可选类型
-
+- includePatterns?: string[], 指定包含接口，[规则参考](https://github.com/pillarjs/path-to-regexp)，若配置了 basepath，请加上 basepath
+- excludePatterns?: string[], 过滤指定接口，[规则参考](https://github.com/pillarjs/path-to-regexp)，若配置了 basepath，请加上 basepath
+- mock?: object, 是否生成mock数据
+  - closeOptional?: boolean, 是否关闭可选类型
+  - filename?: string, mock文件名
+  - path?: string, mock文件路径
+  - responseBodyTemplate?: string, mock返回值模板, {value}代表 mock 数据
 ## 使用
 
 ```bash

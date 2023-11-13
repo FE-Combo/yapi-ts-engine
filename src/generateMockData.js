@@ -1,5 +1,6 @@
 const {parse} = require("@babel/parser");
 const babelTraverse = require("@babel/traverse");
+const { stringFirstLowerCase } = require("./utils.js");
 
 function generateStaticMockData(code, options) {
     let result = [];
@@ -11,24 +12,28 @@ function generateStaticMockData(code, options) {
         // 针对 interface 定义
         TSInterfaceDeclaration(path) {
             const node = path.node;
-            result.push(`
-    export const ${`static${node.id.name}` || "unknown"} = {
-        ${node.body.body.map(item => {
-            // 50% 的概率为 true，50% 的概率为 false
-            const visible = Math.random() < 0.5;
-            return !options.closeOptional && item.optional && visible ? undefined : `${item.key.name}: ${randomGenerator(item.typeAnnotation.typeAnnotation, options)}`
-        }).filter(_=>_).join(`,
-        `)}
-    }`)
+            if(node.id.name.endsWith("$Response")) {
+                result.push(`
+export const ${stringFirstLowerCase(node.id.name.replace(/\$Response$/, ""))} = {
+    ${node.body.body.map(item => {
+        // 50% 的概率为 true，50% 的概率为 false
+        const visible = Math.random() < 0.5;
+        return !options?.closeOptional && item.optional && visible ? undefined : `${item.key.name}: ${randomGenerator(item.typeAnnotation.typeAnnotation, options)}`
+    }).filter(_=>_).join(`,
+    `)}
+}`) 
+            }
         },
         // 针对 type 定义
         TSTypeAliasDeclaration(path) {
             const node = path.node;
-            result.push(`
-    export const ${`static${node.id.name}` || "unknown"} = ${randomGenerator(node.typeAnnotation, options)}`)
+            if(node.id.name.endsWith("$Response")) {
+                result.push(`
+export const ${stringFirstLowerCase(node.id.name.replace(/\$Response$/, ""))} = ${randomGenerator(node.typeAnnotation, options)}`)
+            }
         }
     });
-    return result.join(``)
+    return result.join(`\n`)
 }
 
 module.exports = {
@@ -54,16 +59,16 @@ function randomGenerator(node, options) {
             return Math.random() < 0.5;
         // 数组类型
         case "TSTupleType":
-            return `[${node.elementTypes.map(item => !options.closeOptional && item.optional && Math.random() < 0.5 ? null : randomGenerator(item, options)).join(", ")}]`;
+            return `[${node.elementTypes.map(item => !options?.closeOptional && item.optional && Math.random() < 0.5 ? null : randomGenerator(item, options)).join(", ")}]`;
         // 对象类型
         case "TSTypeLiteral": 
-            return `{${node.members.map(item => !options.closeOptional && item.optional && Math.random() < 0.5 ? null : randomGenerator(item, options)).filter(_=>_).join(", ")}}`;
+            return `{${node.members.map(item => !options?.closeOptional && item.optional && Math.random() < 0.5 ? null : randomGenerator(item, options)).filter(_=>_).join(", ")}}`;
         // 泛型
         case "TSTypeReference":
             // 只支持 Array<T> 的形式，且 T 为基本类型
             if(node.typeName.name === "Array" && node.typeParameters.params.length > 0) {
                 const length = Math.floor(Math.random() * 6) + 1;
-                return `[${Array(length).fill(1).map(_ => node.typeParameters.params.map(item => !options.closeOptional && item.optional && Math.random() < 0.5 ? null : randomGenerator(item, options)).filter(_=>_).join(", ")).join(", ")}]`;
+                return `[${Array(length).fill(1).map(_ => node.typeParameters.params.map(item => !options?.closeOptional && item.optional && Math.random() < 0.5 ? null : randomGenerator(item, options)).filter(_=>_).join(", ")).join(", ")}]`;
             }
         // 对象属性
         case "TSPropertySignature":

@@ -17,6 +17,7 @@ client/.next/
 .DS_Store
 output/
 .cookie
+mock/
 
 # PWA files
 **/public/sw.js
