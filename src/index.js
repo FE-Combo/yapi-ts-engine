@@ -197,6 +197,8 @@ const ServicesProxy = new Proxy(Services, {
     // @ts-ignore
     if(ENV.STATIC_MOCK) {
       return function() {
+        console.info("%cMockRequest: " + prop.toString(), 'color: green; font-weight: bold;');
+        console.info('%cMockData:', 'color: blue; font-weight: bold;', {data: StaticMockServices?.[prop], options: args});
         return ${mock?.responseBodyTemplate?.replace(/{value}/g, "StaticMockServices?.[prop]") || "StaticMockServices?.[prop]"};
       }
     } else {
