@@ -42,6 +42,9 @@ module.exports = {
 
 
 function randomGenerator(node, options) {
+    if(!options?.closeOptional && item.optional && Math.random() < 0.5) {
+        return null
+    } 
     switch (node.type) {
         // 联合类型
         case "TSUnionType":
@@ -72,7 +75,9 @@ function randomGenerator(node, options) {
             }
         // 对象属性
         case "TSPropertySignature":
-            return `${node.key.name}: ${randomGenerator(node.typeAnnotation.typeAnnotation, options)}`;
+            if(node.key?.name) {
+                return `${node.key.name}: ${randomGenerator(node.typeAnnotation.typeAnnotation, options)}`; 
+            }
         default:
             return "undefined";
     }

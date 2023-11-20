@@ -52,7 +52,7 @@ const recursiveJSON = (json, lines, layer) => {
       } else if (properties.type === "integer") {
         lines.push(`${new Array(layer).fill(" ").join("")}${key}${required ? "" : "?"}: number`);
       } else {
-        lines.push(`${new Array(layer).fill(" ").join("")}${key}${required ? "" : "?"}: ${properties.type || "string"}`);
+        lines.push(`${new Array(layer).fill(" ").join("")}${key}${required ? "" : "?"}: ${(Object.prototype.toString.call(properties.type)==='[object Array]' ? properties.type.join(" | ") : properties.type) || "string"}`);
       }
     });
     lines.push(`${new Array(layer).fill(" ").join("")}}`);
@@ -301,7 +301,8 @@ async function generate(options) {
       })}`
     );
   } catch (e) {
-    console.error(chalk`{red.bold ❌ ${e}}`);
+    console.error(chalk`{red.bold ❌ ${e.message}}`);
+    console.error(e.stack);
     process.exit(1);
   }
 }
