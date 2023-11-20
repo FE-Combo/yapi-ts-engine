@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.3](https://github.com/vocoWone/yapi-ts-engine/compare/v0.3.2...v0.3.3) (2023-11-20)
+
+
+### Features
+
+* supports union types ([ec8a9f6](https://github.com/vocoWone/yapi-ts-engine/commit/ec8a9f6d6ec563b20e97067f67ca440eb9c9d2c0))
+
 ### [0.3.2](https://github.com/vocoWone/yapi-ts-engine/compare/v0.3.1...v0.3.2) (2023-11-13)
 
 ### [0.3.1](https://github.com/vocoWone/yapi-ts-engine/compare/v0.3.0...v0.3.1) (2023-11-13)
