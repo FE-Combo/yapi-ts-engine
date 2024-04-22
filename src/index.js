@@ -41,7 +41,7 @@ const apiPattern = (api, options) => {
 const recursiveJSON = (json, lines, layer) => {
   if (json.type === "object") {
     lines.push(`${new Array(layer).fill(" ").join("")}{`);
-    Object.entries(json.properties).forEach(([key, properties]) => {
+    Object.entries(json.properties || {}).forEach(([key, properties]) => {
       const required = json?.required?.includes(key);
       if (properties.type === "object") {
         lines.push(`${new Array(layer).fill(" ").join("")}${key}${required ? "" : "?"}:`);
