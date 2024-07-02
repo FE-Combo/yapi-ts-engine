@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.3.5 (2024-07-02)
+
+
+### Features
+
+* add basepath ([83cfd3e](https://github.com/FE-Combo/yapi-ts-engine/commit/83cfd3eb535c65b97bcb9c4e7ff6785239004901))
+* Add support for static mock data generation ([2657267](https://github.com/FE-Combo/yapi-ts-engine/commit/2657267ca0ac2ca0defdadb4c7dd090e0eff24fb))
+* add template ([d51e295](https://github.com/FE-Combo/yapi-ts-engine/commit/d51e29563bef9be9f71d8f37763e51a4a7d86f85))
+* supports union types ([ec8a9f6](https://github.com/FE-Combo/yapi-ts-engine/commit/ec8a9f6d6ec563b20e97067f67ca440eb9c9d2c0))
+* 递归遍历api ([f4c416e](https://github.com/FE-Combo/yapi-ts-engine/commit/f4c416e0af8f009e4f993434efc0e624ac891c98))
+
+
+### Bug Fixes
+
+* fix the problem that type definition mock data cannot be generated ([3b77880](https://github.com/FE-Combo/yapi-ts-engine/commit/3b77880f3d2d93771abbfa9ca592c9ea00622aab))
+* path parameters ([62fa0e2](https://github.com/FE-Combo/yapi-ts-engine/commit/62fa0e2a1efdc7370f4879b34c33129c236673c5))
+
 ### [0.3.4](https://github.com/vocoWone/yapi-ts-engine/compare/v0.3.3...v0.3.4) (2024-04-22)
 
 ### [0.3.3](https://github.com/vocoWone/yapi-ts-engine/compare/v0.3.2...v0.3.3) (2023-11-20)
